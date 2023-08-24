@@ -1,0 +1,55 @@
+service: reto-swapi-softtek
+frameworkVersion: '2 || 3'
+
+custom:
+  tableName: 'TABLA-PLANETA-${self:provider.stage}'
+
+provider:
+  name: aws
+  stage: dev
+  runtime: nodejs14.x
+  lambdaHashingVersion: '20201221'
+  timeout: 20
+  environment:
+    HOST_SWAPI: https://swapi.py4e.com/api
+    TABLA_DYN_PLANETA: ${self:custom.tableName}
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+resources:
+  Resources:
+    PlanetaDynamoDBTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: nombre
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: nombre
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.tableName}
+
+functions:
+  crearPlaneta:
+    handler: handler.crearPlaneta
+    description: Lambda para insertar planeta de StartrWards.
+    events:
+      - http:
+          path: /planeta
+          method: post
+          integration: lambda
+  obtenerPlaneta:
+    handler: handler.obtenerPlaneta
+    description: Lambda para obtener un planeta de StartrWards.
+    events:
+      - http:
+          path: /planeta/{nombrePlaneta}
+          method: get
+          integration: lambda

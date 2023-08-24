@@ -1,0 +1,1 @@
+export const crearPlanetaResponse: Object = { "OK": true, "mensaje": "creado correctamente!", "planetaCreado": "Tatooine" }

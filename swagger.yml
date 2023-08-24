@@ -1,0 +1,139 @@
+swagger: '2.0'
+info:
+  description: Reto Swapi Softtek
+  version: 1.0.0
+  title: Reto Swapi Softtek Api
+  contact:
+    email: fernandmorausky@gmail.com
+paths:
+  /planeta:
+    post:
+      tags:
+      - Planeta
+      summary: crear un planeta en DynamoDB.
+      operationId: crearPlaneta
+      description: consume swapi de planetas y se inserta a DynamoDB
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: idPlaneta
+        description: id de planeta a buscar en la API swapi
+        schema:
+          type: integer
+          required:
+          - idPlaneta
+          properties:
+            idPlaneta:
+              type: integer
+              example: 1
+      responses:
+        200:
+          description: Planeta creado correctamenta
+          schema:
+            type: object
+            properties:
+              OK:
+                type: boolean
+                example: true
+              planetaCreado:
+                type: string
+                example: Tatooine
+              mensaje:
+                type: string
+                example: "creado correctamente!"
+        400:
+          description: Ocurrio un error inesperado
+          schema:
+            type: string
+            example: "Planeta no encontrado!!!"
+  /planeta/{nombre}:
+    get:
+      tags:
+      - Planeta
+      summary: Devuelve un planeta 
+      operationId: buscarPlaneta
+      description: Buscar un planeta en DynamoDB previamente creada
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        type: string
+        name: nombre
+        required: true
+        description: Nombre planeta
+      responses:
+        200:
+          description: Planeta obtenido
+          schema:
+            $ref: '#/definitions/planeta'
+        400:
+          description: Planeta no encontrado en nuestra DB
+          schema:
+            type: object
+            properties: 
+              mensaje:
+                type: string
+                example: "Error al Obtener Información!"
+              OK:
+                type: boolean
+                example: false
+
+definitions:
+  planeta:
+    type: object
+    required:
+    - id
+    - name
+    - manufacturer
+    - releaseDate
+    properties:
+      nombre:
+        type: string
+        example: Tatooine
+      periodo_rotacion:
+        type: string
+        example: 23
+      diametro:
+        type: string
+        example: 10465
+      poblacion:
+        type: string
+        example: 200000
+      clima:
+        type: string
+        example: arid
+      terrenos:
+        type: string
+        example: desert
+      residentes:
+        type: array
+        items:
+          type: object
+          properties:
+            nombre:
+              type: string
+              example: Luke Skywalker
+            alto:
+              type: string
+              example: 172
+            peso:
+              type: string
+              example: 77
+            color_cabello:
+              type: string
+              example: blod
+            color_ojos:
+              type: string
+              example: blue
+            genero:
+              type: string
+              example: male
+
+schemes:
+ - https
+basePath: /dev
