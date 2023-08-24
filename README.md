@@ -58,4 +58,4 @@ yarn deploy
 
 Aprender acerca del Reto Swapi Softtek
 
-- [Getting Started](https://github.com/fernandmorausky/reto_swapi_softtek/new/master?readme=1#getting-started)
+- [Getting Started](https://github.com/fernandmorausky/reto_swapi_softtek/#getting-started)
